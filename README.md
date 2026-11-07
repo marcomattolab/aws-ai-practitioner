@@ -34,9 +34,3 @@ L'output viene generato nella cartella `dist/`.
 ```bash
 npm test
 ```
-
-## Sincronizzazione domande
-
-```bash
-npm run sync:questions
-```
