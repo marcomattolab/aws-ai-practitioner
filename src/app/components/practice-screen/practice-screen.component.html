@@ -1,0 +1,229 @@
+<div class="container">
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <button class="btn-back" (click)="back.emit()">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M19 12H5"></path>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Home
+    </button>
+
+    <div class="mode-badge">
+      <span>📖 Practice</span>
+      @if (context() === 'wrong') {
+        <span class="badge-sub text-danger">· Incorrect Only</span>
+      }
+    </div>
+
+    <div class="nav-actions">
+      <button
+        class="btn btn-icon"
+        (click)="sound.toggle()"
+        [title]="sound.enabled() ? 'Mute' : 'Unmute'"
+      >
+        @if (sound.enabled()) {
+          <span>🔊</span>
+        } @else {
+          <span>🔇</span>
+        }
+      </button>
+
+      <button class="btn btn-outline btn-sm" (click)="showJumpModal.set(true)">
+        🎯 Jump (#{{ currentIndex() + 1 }}/{{ questions().length }})
+      </button>
+    </div>
+  </div>
+
+  @if (currentQuestion(); as q) {
+    <div class="question-card">
+      <div class="question-header">
+        <span class="question-number">Question #{{ currentIndex() + 1 }}</span>
+        @if (q.is_hotspot) {
+          <span class="question-badge-hotspot">⚡ HOTSPOT</span>
+        }
+        @if (isMultiChoice()) {
+          <span class="badge-multi">Choose {{ maxSelections() }}</span>
+        }
+        @if (q.url) {
+          <a [href]="q.url" target="_blank" rel="noopener" class="et-link">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            ExamTopics Discussion
+          </a>
+        }
+      </div>
+
+      <div class="question-text">{{ q.question }}</div>
+
+      <!-- Question Images (if any) -->
+      @if (q.images && q.images.length > 0) {
+        <div class="question-images">
+          @for (img of q.images; track img) {
+            <img [src]="img" alt="Question diagram" loading="lazy" />
+          }
+        </div>
+      }
+
+      <!-- Options List -->
+      <div class="options-list">
+        @for (letter of optionKeys(); track letter) {
+          <div
+            class="option-card"
+            [class.selected]="selectedLetters().has(letter)"
+            [class.correct]="answerRevealed() && q.correct_answer.includes(letter)"
+            [class.wrong]="
+              answerRevealed() &&
+              selectedLetters().has(letter) &&
+              !q.correct_answer.includes(letter)
+            "
+            (click)="toggleOption(letter)"
+          >
+            <span class="option-letter">{{ letter }}</span>
+            <span class="option-text">{{ q.options[letter] }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Action Button (Reveal / Checked) -->
+      <div class="action-row">
+        @if (!answerRevealed()) {
+          <button
+            class="btn btn-primary btn-large btn-full"
+            [disabled]="selectedLetters().size === 0"
+            (click)="revealAnswer()"
+          >
+            Check Answer
+          </button>
+        } @else {
+          <div
+            class="verdict-banner"
+            [class.correct]="isCorrectVerdict()"
+            [class.wrong]="!isCorrectVerdict()"
+          >
+            @if (isCorrectVerdict()) {
+              <span>🎉 Correct! Excellent job.</span>
+            } @else {
+              <span
+                >❌ Incorrect. Correct answer is <strong>{{ q.correct_answer }}</strong
+                >.</span
+              >
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Revealed Answer & Discussion Breakdown -->
+      @if (answerRevealed()) {
+        <div class="answer-reveal">
+          <div class="answer-badge">
+            ✓ Correct Answer: {{ q.correct_answer }}
+            @if (q.community_answer && q.community_answer !== q.correct_answer) {
+              <span class="community-note">· Community: {{ q.community_answer }}</span>
+            }
+          </div>
+
+          <!-- Vote Distribution -->
+          @if (voteBars().length > 0) {
+            <div class="vote-distribution">
+              <span class="vote-title">Community Vote Distribution:</span>
+              @for (v of voteBars(); track v.letter) {
+                <div class="vote-bar-row">
+                  <span class="vote-bar-letter">{{ v.letter }}</span>
+                  <div class="vote-bar-track">
+                    <div
+                      class="vote-bar-fill"
+                      [class.correct]="v.isCorrect"
+                      [style.width.%]="v.percentage"
+                    ></div>
+                  </div>
+                  <span class="vote-bar-count">{{ v.percentage }}% ({{ v.count }})</span>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Discussion Toggle -->
+          @if (q.discussion && q.discussion.length > 0) {
+            <div class="discussion-wrapper">
+              <button
+                class="btn btn-outline btn-sm"
+                (click)="showDiscussion.set(!showDiscussion())"
+              >
+                {{
+                  showDiscussion()
+                    ? 'Hide Discussions'
+                    : 'Show Community Explanations (' + q.discussion.length + ')'
+                }}
+              </button>
+
+              @if (showDiscussion()) {
+                <div class="discussion-box">
+                  @for (d of q.discussion; track $index) {
+                    <div class="discussion-item">{{ d }}</div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Navigation Footer -->
+    <div class="bottom-nav">
+      <button class="btn btn-secondary" [disabled]="currentIndex() === 0" (click)="prevQuestion()">
+        ← Previous
+      </button>
+
+      <span class="counter-text">{{ currentIndex() + 1 }} / {{ questions().length }}</span>
+
+      <button
+        class="btn btn-primary"
+        [disabled]="currentIndex() === questions().length - 1"
+        (click)="nextQuestion()"
+      >
+        Next →
+      </button>
+    </div>
+  }
+
+  @if (showJumpModal()) {
+    <div class="modal-backdrop" (click)="showJumpModal.set(false)">
+      <div class="modal-card jump-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3 class="modal-title">Jump to Question</h3>
+          <button class="btn-icon" (click)="showJumpModal.set(false)">✕</button>
+        </div>
+        <div class="jump-grid">
+          @for (q of questions(); track $index) {
+            <button
+              class="jump-btn"
+              [class.current]="currentIndex() === $index"
+              (click)="jumpTo($index)"
+            >
+              {{ $index + 1 }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

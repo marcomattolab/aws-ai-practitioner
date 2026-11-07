@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Angular build output
+dist/
+.angular/
+
+# Logs
+*.log

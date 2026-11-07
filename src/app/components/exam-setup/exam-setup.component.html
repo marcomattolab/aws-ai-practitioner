@@ -1,0 +1,58 @@
+<div class="container">
+  <button class="btn-back" (click)="back.emit()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5"></path>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back
+  </button>
+
+  <div class="setup-card">
+    <h2>Exam Simulation Configuration</h2>
+    <p class="setup-info">
+      The AWS AIF-C01 exam uses a scaled scoring model from <strong>100 to 1000</strong>.
+      A passing score is typically <strong>700/1000</strong> (~70% correct).
+    </p>
+
+    <div class="form-group">
+      <label for="num-q">Number of Questions</label>
+      <div class="slider-group">
+        <input
+          id="num-q"
+          type="range"
+          min="10"
+          max="85"
+          step="5"
+          [ngModel]="numQuestions()"
+          (ngModelChange)="numQuestions.set($event)"
+        />
+        <span class="slider-val">{{ numQuestions() }}</span>
+      </div>
+      <p class="form-hint">The real AWS exam has 85 questions (65 scored + 20 unscored).</p>
+    </div>
+
+    <div class="form-group">
+      <label for="pass-t">Passing Threshold (%)</label>
+      <div class="slider-group">
+        <input
+          id="pass-t"
+          type="range"
+          min="50"
+          max="90"
+          step="5"
+          [ngModel]="passThreshold()"
+          (ngModelChange)="passThreshold.set($event)"
+        />
+        <span class="slider-val">{{ passThreshold() }}%</span>
+      </div>
+      <p class="form-hint">Standard threshold is 70% (700/1000 scaled score).</p>
+    </div>
+
+    <button class="btn btn-primary btn-large btn-full" (click)="onStart()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+      Start Exam ({{ numQuestions() }} Questions)
+    </button>
+  </div>
+</div>

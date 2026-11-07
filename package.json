@@ -1,0 +1,38 @@
+{
+  "name": "aws-ai-ng",
+  "version": "1.0.0",
+  "description": "AWS Certified AI Practitioner (AIF-C01) Exam Trainer — Angular 22 Standalone PWA",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "sync:questions": "bash scripts/sync-questions.sh",
+    "watch": "ng build --watch --configuration development",
+    "test": "vitest --run",
+    "vitest": "vitest"
+  },
+  "dependencies": {
+    "@angular/animations": "^22.0.0",
+    "@angular/cdk": "^22.0.0",
+    "@angular/common": "^22.0.0",
+    "@angular/compiler": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/material": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
+    "@angular/router": "^22.0.0",
+    "@angular/service-worker": "^22.0.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.0.0",
+    "@angular/cli": "^22.0.0",
+    "@angular/compiler-cli": "^22.0.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
+    "vitest": "^4.1.6"
+  }
+}

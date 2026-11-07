@@ -1,0 +1,114 @@
+.results-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 40px 28px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  max-width: 680px;
+  margin: 30px auto;
+  animation: fadeIn 0.3s ease;
+}
+
+.result-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 24px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+}
+
+.result-status-badge.passed {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.result-status-badge.failed {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.scaled-score {
+  font-size: clamp(48px, 8vw, 72px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.score-max {
+  font-size: 24px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.score-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.metric-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-card.correct {
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.metric-card.wrong {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.metric-card.unanswered {
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.metric-val {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.metric-lbl {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.text-success { color: var(--success); }
+.text-danger { color: var(--danger); }
+.text-warning { color: var(--warning); }
+
+.results-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.secondary-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 10px;
+}

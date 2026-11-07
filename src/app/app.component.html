@@ -1,0 +1,36 @@
+@switch (screen()) {
+  @case ('home') {
+    <app-home-screen (startPractice)="startPractice($event)" (startExamSetup)="openExamSetup()" />
+  }
+  @case ('exam-setup') {
+    <app-exam-setup (back)="goHome()" (start)="startExam($event)" />
+  }
+  @case ('practice') {
+    <app-practice-screen
+      [questions]="practiceQuestions()"
+      [context]="practiceContext()"
+      (back)="goHome()"
+    />
+  }
+  @case ('exam') {
+    <app-exam-screen (cancel)="cancelExam()" (finish)="onExamFinished($event)" />
+  }
+  @case ('results') {
+    @if (examResult(); as result) {
+      <app-results-screen
+        [result]="result"
+        (home)="goHome()"
+        (review)="reviewExam()"
+        (practiceWrong)="practiceWrongFromResult()"
+        (retake)="retakeExam()"
+      />
+    }
+  }
+  @case ('review') {
+    <app-review-screen
+      [questions]="reviewQuestions()"
+      [userAnswers]="reviewAnswers()"
+      (back)="backToResults()"
+    />
+  }
+}

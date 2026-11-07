@@ -1,0 +1,99 @@
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="badge">AWS Certified</div>
+    <h1>AI Practitioner<br /><span class="accent">AIF-C01</span></h1>
+    <p class="subtitle">Exam Preparation Platform · 100% On-Device & Offline</p>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-value">{{ qService.totalQuestions() }}</span>
+        <span class="stat-label">Total Questions</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ qService.answeredCount() }}</span>
+        <span class="stat-label">Answered</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value text-accent">{{ qService.accuracyPercentage() }}%</span>
+        <span class="stat-label">Accuracy</span>
+      </div>
+      @if (qService.failedCount() > 0) {
+        <div class="stat-card failed">
+          <span class="stat-value text-danger">{{ qService.failedCount() }}</span>
+          <span class="stat-label">Needs Review</span>
+        </div>
+      }
+    </div>
+
+    <!-- Mode Buttons -->
+    <div class="mode-buttons">
+      <button
+        class="btn btn-primary btn-large btn-full-mobile"
+        (click)="onPracticeClick()"
+        [disabled]="qService.loading()"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+        <span>Practice Mode</span>
+      </button>
+
+      <button
+        class="btn btn-secondary btn-large btn-full-mobile"
+        (click)="onExamClick()"
+        [disabled]="qService.loading()"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Exam Simulation</span>
+      </button>
+    </div>
+
+    @if (qService.failedCount() > 0) {
+      <div class="practice-wrong-wrapper">
+        <button class="btn btn-outline" (click)="onPracticeWrongClick()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"></path>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          Practice {{ qService.failedCount() }} Incorrect Questions Only
+        </button>
+      </div>
+    }
+
+    <!-- Bottom Controls -->
+    <div class="bottom-actions">
+      <button class="btn btn-outline btn-sm" (click)="sound.toggle()">
+        @if (sound.enabled()) {
+          <span>🔊 Sound Effects (Milionario) ON</span>
+        } @else {
+          <span>🔇 Sound Effects OFF</span>
+        }
+      </button>
+
+      @if (qService.answeredCount() > 0) {
+        <button class="btn btn-outline btn-sm text-muted" (click)="onResetProgress()">
+          Reset History
+        </button>
+      }
+    </div>
+
+    @if (qService.loading()) {
+      <div class="loading-hint">
+        <span class="hint-dot"></span>
+        <span>Loading 472 questions and discussions...</span>
+      </div>
+    }
+
+    @if (qService.error()) {
+      <div class="error-banner">
+        {{ qService.error() }}
+      </div>
+    }
+  </div>
+</div>

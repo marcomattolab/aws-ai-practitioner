@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="results-card">
+    <div class="result-status-badge" [class.passed]="result().passed" [class.failed]="!result().passed">
+      @if (result().passed) {
+        <span class="status-icon">🏆</span>
+        <span class="status-text">PASSED</span>
+      } @else {
+        <span class="status-icon">⚠️</span>
+        <span class="status-text">FAILED</span>
+      }
+    </div>
+
+    <h1 class="scaled-score">{{ result().scaledScore }} <span class="score-max">/ 1000</span></h1>
+    <p class="score-desc">
+      Your score: <strong>{{ result().scorePercentage }}%</strong> · Required to pass: <strong>{{ result().passThreshold }}%</strong> (700/1000)
+    </p>
+
+    <div class="results-grid">
+      <div class="metric-card">
+        <span class="metric-val">{{ result().totalQuestions }}</span>
+        <span class="metric-lbl">Total Questions</span>
+      </div>
+      <div class="metric-card correct">
+        <span class="metric-val text-success">{{ result().correctCount }}</span>
+        <span class="metric-lbl">Correct</span>
+      </div>
+      <div class="metric-card wrong">
+        <span class="metric-val text-danger">{{ result().incorrectCount }}</span>
+        <span class="metric-lbl">Incorrect</span>
+      </div>
+      <div class="metric-card unanswered">
+        <span class="metric-val text-warning">{{ result().unansweredCount }}</span>
+        <span class="metric-lbl">Unanswered</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-val">{{ formattedTime() }}</span>
+        <span class="metric-lbl">Time Elapsed</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="results-actions">
+      <button class="btn btn-primary btn-large btn-full" (click)="review.emit()">
+        📋 Review All Exam Answers
+      </button>
+
+      @if (result().wrongQuestions.length > 0) {
+        <button class="btn btn-secondary btn-large btn-full" (click)="practiceWrong.emit()">
+          🔄 Practice on {{ result().wrongQuestions.length }} Incorrect Questions Only
+        </button>
+      }
+
+      <div class="secondary-actions">
+        <button class="btn btn-outline" (click)="retake.emit()">Retake Exam</button>
+        <button class="btn btn-outline" (click)="home.emit()">Back to Home</button>
+      </div>
+    </div>
+  </div>
+</div>
