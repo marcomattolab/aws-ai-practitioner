@@ -112,3 +112,39 @@
   justify-content: center;
   margin-top: 10px;
 }
+
+/* ── Responsive ── */
+@media (min-width: 1200px) {
+  .results-card {
+    max-width: 960px;
+    padding: 48px 40px;
+  }
+
+  .results-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .results-card {
+    padding: 28px 16px;
+    margin: 16px auto;
+  }
+
+  .result-status-badge {
+    font-size: 15px;
+    padding: 7px 18px;
+  }
+
+  .score-desc {
+    margin-bottom: 24px;
+  }
+
+  .secondary-actions {
+    flex-direction: column;
+  }
+
+  .secondary-actions .btn {
+    width: 100%;
+  }
+}

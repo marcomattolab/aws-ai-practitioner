@@ -115,3 +115,39 @@
   color: var(--accent-primary);
   box-shadow: 0 0 10px rgba(255, 153, 0, 0.3);
 }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .bottom-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .bottom-nav .btn {
+    width: 100%;
+  }
+
+  .counter-text {
+    text-align: center;
+  }
+
+  .nav-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .top-bar {
+    align-items: flex-start;
+  }
+
+  .jump-grid {
+    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+    gap: 6px;
+  }
+
+  .jump-btn {
+    height: 38px;
+  }
+}

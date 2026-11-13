@@ -89,3 +89,26 @@
   justify-content: space-between;
   margin-top: 16px;
 }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .bottom-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .bottom-nav .btn {
+    width: 100%;
+  }
+
+  .nav-controls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .user-choice-tag {
+    margin-left: 0;
+  }
+}

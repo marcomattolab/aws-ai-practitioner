@@ -142,8 +142,44 @@ h1 {
   100% { transform: scale(1.2); opacity: 1; }
 }
 
+/* ── Responsive ── */
+@media (min-width: 1200px) {
+  .hero-content {
+    max-width: 860px;
+  }
+}
+
 @media (max-width: 600px) {
   .btn-full-mobile {
+    width: 100%;
+  }
+
+  .mode-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero {
+    padding: 32px 16px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .bottom-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bottom-actions .btn {
     width: 100%;
   }
 }
